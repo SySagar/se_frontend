@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { persist } from 'zustand/middleware';
 
-export const useTrainStore = create((set) => ({
+export const useTrainStore = create( persist((set) => ({
   trains: [],
   from: "",
   to: "",
@@ -10,4 +11,7 @@ export const useTrainStore = create((set) => ({
   setFrom: (from: string) => set({ from }),
   setTo: (to: string) => set({ to }),
   setDate: (date: string) => set({ date }),
+}),{
+  name: 'tab-storage',
+  getStorage: () => sessionStorage,
 }));

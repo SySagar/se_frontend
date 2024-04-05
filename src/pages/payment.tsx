@@ -29,6 +29,11 @@ const Payment = () => {
   const [passengerData, setPassengerData] = React.useState<any>([]);
   const handleAddPassenger = () => {
     setPassengerData([...passengerData, passengers]);
+    setPassengers({
+      name: "",
+      age: "",
+      gender: "",
+    })
   };
 
   const handleChangePassenger = (e: any) => {
@@ -55,16 +60,16 @@ const Payment = () => {
 
   const trainStore: any = useTrainStore();
   const trains = trainStore.trains;
-  const train = trains.find((train: any) => train.train_base.train_no === id);
+  const train = trains.find((train: any) => train.train_no === id);
   const ticketStore: any = useTicketStore();
   const navigate = useNavigate();
   const handleSubmit = async () => {
     const ticket = {
       train: {
         id: id,
-        name: train?.train_base.train_name,
-        from: train?.train_base.from_stn_name,
-        to: train?.train_base.dstn_stn_name,
+        name: train?.name,
+        from: train?.from,
+        to: train?.to,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
         price: 100,
@@ -97,8 +102,14 @@ const Payment = () => {
       <Card elevation={3} sx={{ width: "80%", margin: "auto", mt: 3, p: 1 }}>
         {/* Train Detail Card Content */}
 
-        <Typography variant="h6" fontWeight={200}>
-          {train?.train_base.train_name} {id}
+        <Typography variant="h6" fontWeight={200} display={'flex'} width={'100%'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+         <div>
+          {train?.name}
+         </div>
+          <div>
+
+           {id}
+          </div>
         </Typography>
         <Box
           sx={{
@@ -109,14 +120,14 @@ const Payment = () => {
           }}
         >
           <Box>
-            {train?.train_base.from_time} | {train?.train_base.from_stn_name}
+            {train?.startTime} | {train?.from}
           </Box>
-          <Box>{train?.train_base.travel_time}</Box>
+          <Box>{train?.travel_time}</Box>
           <Box>
-            {train?.train_base.to_time} | {train?.train_base.dstn_stn_name}
+            {train?.lastTime} | {train?.to}
           </Box>
         </Box>
-        <Box>Borading Station: {train?.train_base.from_stn_code}</Box>
+        {/* <Box>Borading Station: {train?.train_base.from_stn_code}</Box> */}
       </Card>
       {/* Passenger Details */}
       <Typography
@@ -156,7 +167,7 @@ const Payment = () => {
       ))}
       {passengerData.length !== 0 && (
         <Typography variant="h6" fontWeight={200} sx={{ textAlign: "center" }}>
-          Total Amount: {passengerData.length * 2.3*40*parseInt(train?.train_base.travel_time)}
+          Total Amount: {passengerData.length * 2.3*40*parseInt(train?.travel_time)}
         </Typography>
       )}
 

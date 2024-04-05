@@ -61,7 +61,7 @@ const Enquiry = () => {
 
       {/* Train Card */}
       {trains?.map((train: any, id: number) => (
-        <TrainCard key={id} {...train.train_base} />
+        <TrainCard key={id} {...train} />
       ))}
     </Stack>
   );

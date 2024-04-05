@@ -17,12 +17,12 @@ export const fetchTrains = async ({
   to: string;
   formattedDate?: string;
 }) => {
-  const response = await axiosInstance.get("/search", {
-    params: {
+  const response = await axiosInstance.post("/search", {
+    
       from,
       to,
       date: formattedDate,
-    },
+    
   });
   return response.data;
 };

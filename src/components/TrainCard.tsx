@@ -6,12 +6,17 @@ import { Link } from "react-router-dom";
 import { authStore } from "../state/auth";
 const TrainCard = (props: TrainProps) => {
   const authState: any = authStore();
+  console.log("authState", props.train_no);
   return (
     <Card
       elevation={3}
       sx={{
-        width: "80%",
+        width: "90%",
         margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "evenly",
         mt: 3,
       }}
     >
@@ -21,32 +26,54 @@ const TrainCard = (props: TrainProps) => {
           p: 2,
           display: "flex",
           alignItems: "center",
-          gap: 2,
+          gap: 4,
         }}
       >
         <TrainIcon />
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography variant="h6" fontWeight={400}>
-            Train Name {props.train_name}
+          <Typography variant="h6" fontWeight={600}>
+            {props.name}
           </Typography>
-          <Typography variant="subtitle2" fontWeight={400}>
-            Train Number {props.train_no}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography variant="h6" fontWeight={400}>
-            From {props.from_stn_code}
-          </Typography>
-          <Typography variant="subtitle2" fontWeight={400}>
-            Departure Time {props.from_time}
+          <Typography variant="subtitle2" fontWeight={600} color={'green'}>
+            {props.train_no}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography variant="h6" fontWeight={400}>
-            To {props.to_stn_code}
+            From {props.from}
           </Typography>
           <Typography variant="subtitle2" fontWeight={400}>
-            Arrival Time {props.to_time}
+          Departure Time 
+            <p
+            style={
+              {
+                color:'red',
+                fontWeight:700,
+                fontSize:15,
+                padding:0,
+                margin:0
+              }
+            }
+            >
+           {props.startTime}
+            </p>
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Typography variant="h6" fontWeight={400}>
+            To {props.to}
+          </Typography>
+          <Typography variant="subtitle2" fontWeight={400}>
+           Arrival Time 
+           <p style={{
+              color:'red',
+              fontWeight:700,
+              fontSize:15,
+              padding:0,
+              margin:0
+           }}>
+           {props.lastTime}
+           </p>
           </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -54,15 +81,33 @@ const TrainCard = (props: TrainProps) => {
             Duration {props.travel_time}hr
           </Typography>
           <Typography variant="subtitle2" fontWeight={400}>
-            Distance 250km
+            Distance 
+            <p
+            style={{
+              fontWeight:700,
+              fontSize:15,
+              padding:0,
+              margin:0
+            }}
+            >
+            250km
+            </p>
           </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography variant="h6" fontWeight={100}>
             Classes General
           </Typography>
-          <Typography variant="subtitle2" fontWeight={400}>
-            Fare ₹{parseInt(props.travel_time) * 33.3}
+          <Typography variant="subtitle2" fontWeight={400}  sx={{color:'green',fontWeight:700}}>
+            Fare ₹{(parseInt(props.travel_time) * 33.3 as Number).toFixed(2)}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Typography variant="h6" fontWeight={100}>
+            Available Seats
+          </Typography>
+          <Typography variant="subtitle2" fontWeight={400} sx={{color:'red',fontWeight:700}}>
+            {props.seats}
           </Typography>
         </Box>
         <Box sx={{ flexGrow: 1 }} />

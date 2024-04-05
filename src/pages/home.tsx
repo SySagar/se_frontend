@@ -34,13 +34,17 @@ function Home() {
   const handleSubmit = async () => {
     // format date to DD/MM/YYYY
     setLoading(true);
-    const formattedDate = date?.format("DD/MM/YYYY");
+    const formattedDate = date?.format("YYYY/MM/DD").replace(/\//g, "-"); 
     console.log(
       `Searching trains from ${from} to ${to} on ${formattedDate} in ${classes} class`
     );
+    console.log("from", from);
+    console.log("to", to);
+    console.log("date", formattedDate);
     const trains = await fetchTrains({ from, to, formattedDate });
+    console.log("booom",trains);
     setLoading(false);
-    trainStore.setTrains(trains.data);
+    trainStore.setTrains(trains.trainList);
     trainStore.setFrom(from);
     trainStore.setTo(to);
     trainStore.setDate(formattedDate);
