@@ -60,9 +60,29 @@ const Enquiry = () => {
       </Card>
 
       {/* Train Card */}
-      {trains?.map((train: any, id: number) => (
-        <TrainCard key={id} {...train} />
-      ))}
+      {trains?.length > 0 ?
+      <div>
+        {
+
+          trains?.map((train: any, id: number) => (
+            <TrainCard key={id} {...train} />
+            ))
+          }
+      </div>
+      :
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "60vh",
+      
+      }}>
+        <div>
+          <img src="no.gif" alt="" />
+        </div>
+        <h1>No Trains found</h1>
+      </div>
+      }
     </Stack>
   );
 };

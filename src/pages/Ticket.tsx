@@ -16,10 +16,20 @@ const Ticket = () => {
         <div className="ticket">
           <div className="ticket__main">
             <div className="header">{ticket?.train.name}</div>
-            <div className="info passenger">
+            {
+              ticket?.passengerList.map((passenger: any, index: number) => {
+                return (
+                  <div className="info passenger" key={index}>
+                    <div className="info__item">Passenger</div>
+                    <div className="info__detail">{passenger.name}</div>
+                  </div>
+                );
+              })
+            }
+            {/* <div className="info passenger">
               <div className="info__item">Passenger</div>
               <div className="info__detail">{ticket?.passenger.name}</div>
-            </div>
+            </div> */}
             <div className="info platform">
               {" "}
               <span>Depart </span>

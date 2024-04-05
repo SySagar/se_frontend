@@ -16,6 +16,14 @@ export const useTicketStore = create((set) => ({
       age: "",
       gender: "",
     },
+    passengerList: [],
   },
   setTicket: (ticket: any) => set({ ticket }),
+  setPassengerList: (passenger: any) =>
+    set((state: any) => ({
+      ticket: {
+        ...state.ticket,
+        passengerList: [...state.ticket.passengerList, passenger],
+      },
+    })),
 }));

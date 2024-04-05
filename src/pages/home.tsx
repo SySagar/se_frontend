@@ -41,6 +41,11 @@ function Home() {
     console.log("from", from);
     console.log("to", to);
     console.log("date", formattedDate);
+    if(!from || !to || !date) {
+      notify("Please fill all the fields", "error");
+      setLoading(false);
+      return;
+    }
     const trains = await fetchTrains({ from, to, formattedDate });
     console.log("booom",trains);
     setLoading(false);

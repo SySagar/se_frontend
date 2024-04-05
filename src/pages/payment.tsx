@@ -17,6 +17,7 @@ import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import { useTicketStore } from "../state/ticket";
 import { saveTicket } from "../api/axiosInstances";
+import useToast from "../hooks/useToast";
 
 const Payment = () => {
   const params = useParams();
@@ -28,7 +29,27 @@ const Payment = () => {
   });
   const [passengerData, setPassengerData] = React.useState<any>([]);
   const handleAddPassenger = () => {
+    if(!passengers.name )
+    {
+      notify("Please fill name of passenger", "error");
+      return;
+    }
+
+    if(!passengers.age )
+    {
+      notify("Please fill age of passenger", "error");
+      return;
+    }
+
+    if(!passengers.gender)
+    {
+      notify("Please mention gender of passenger", "error");
+      return;
+    }
     setPassengerData([...passengerData, passengers]);
+    
+      ticketStore.ticket.passengerList.push(passengers)
+    
     setPassengers({
       name: "",
       age: "",
@@ -63,7 +84,20 @@ const Payment = () => {
   const train = trains.find((train: any) => train.train_no === id);
   const ticketStore: any = useTicketStore();
   const navigate = useNavigate();
+  const { notify, ToastContainer } = useToast();
   const handleSubmit = async () => {
+
+    if(!paymentDetails.cvc || !paymentDetails.expiry || !paymentDetails.name || !paymentDetails.number) {
+      notify("Please fill all the card details", "error");
+      return;
+    }
+
+
+    if (passengerData.length === 0) {
+      notify("Please add passengers", "error");
+      return;
+    }
+
     const ticket = {
       train: {
         id: id,
@@ -79,6 +113,7 @@ const Payment = () => {
         age: passengers.age,
         gender: passengers.gender,
       },
+      passengerList: ticketStore.ticket.passengerList,
     };
     // save tickets
     const data = await saveTicket(ticket);
@@ -90,6 +125,7 @@ const Payment = () => {
 
   return (
     <div>
+      <ToastContainer />
       {/* Train Detail Card */}
       <Typography
         variant="h6"
